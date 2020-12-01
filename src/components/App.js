@@ -154,8 +154,34 @@ const states = [
   },
 ];
 
+export function GetTowns(props){
+  const { city } = props;
+  const townList = city.towns.map((town) => <li>{town.name}</li>);
+  return (
+  <div>
+    <li>{city.name}</li>
+    <ul>{townList}</ul>
+  </div>);
+}
+
+export function GetCities(props){
+  const { state } = props;
+  const cityList = state.cities.map((city) => <li>{ <GetTowns city={city} />}</li>);
+  return (
+    <div>
+    <li>{state.name}</li>
+    <ul>{cityList}</ul>
+  </div>);
+}
+
 function App() {
-  return <div id="main"></div>;
+  return (
+    <div id="main">
+      <ul>{
+        states.map((state) => <li>{ <GetCities state={state} /> }</li>)
+      }</ul>
+    </div>
+  );
 }
 
 export default App;
