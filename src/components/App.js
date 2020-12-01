@@ -154,24 +154,40 @@ const states = [
   },
 ];
 
-export function GetTowns(props){
+export function GetTowns(props) {
   const { city } = props;
   const townList = city.towns.map((town) => <li>{town.name}</li>);
+  const [showList, setShowList] = useState(false);
+  const toggleList = () => {
+    if(showList) {
+      setShowList(false);
+    } else {
+      setShowList(true);
+    }
+  }
   return (
   <div>
-    <li>{city.name}</li>
-    <ul>{townList}</ul>
+    <button onClick={toggleList}>{city.name}</button>
+    { showList ? <ul>{townList}</ul> : null }
   </div>);
 }
 
 export function GetCities(props){
   const { state } = props;
   const cityList = state.cities.map((city) => <li>{ <GetTowns city={city} />}</li>);
+  const [showList, setShowList] = useState(false);
+  const toggleList = () => {
+    if(showList) {
+      setShowList(false);
+    } else {
+      setShowList(true);
+    }
+  }
   return (
     <div>
-    <li>{state.name}</li>
-    <ul>{cityList}</ul>
-  </div>);
+      <button onClick={toggleList}>{state.name}</button>
+      { showList ? <ul>{cityList}</ul> : null }
+    </div>);
 }
 
 function App() {
