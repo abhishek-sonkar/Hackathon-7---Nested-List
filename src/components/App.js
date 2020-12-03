@@ -156,7 +156,7 @@ const states = [
 
 export function GetTowns(props) {
   const { city } = props;
-  const townList = city.towns.map((town) => <li>{town.name}</li>);
+  const townList = city.towns.map((town, idx) => <li id={ `town${idx + 1}` }>{town.name}</li>);
   const [showList, setShowList] = useState(false);
   const toggleList = () => {
     if(showList) {
@@ -172,9 +172,9 @@ export function GetTowns(props) {
   </div>);
 }
 
-export function GetCities(props){
+export function GetCities(props) {
   const { state } = props;
-  const cityList = state.cities.map((city) => <li>{ <GetTowns city={city} />}</li>);
+  const cityList = state.cities.map((city, idx) => <li id={ `city${idx + 1}` }>{ <GetTowns city={city} />}</li>);
   const [showList, setShowList] = useState(false);
   const toggleList = () => {
     if(showList) {
@@ -194,7 +194,7 @@ function App() {
   return (
     <div id="main">
       <ul>{
-        states.map((state) => <li>{ <GetCities state={state} /> }</li>)
+        states.map((state, idx) => <li id={ `state${idx + 1}` }>{ <GetCities state={state} /> }</li>)
       }</ul>
     </div>
   );
