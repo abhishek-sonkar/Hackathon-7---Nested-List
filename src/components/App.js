@@ -155,26 +155,7 @@ const states = [
 ];
 
 export function GetTowns(props) {
-  const { city } = props;
-  const townList = city.towns.map((town, idx) => <li key={town.name} id={ `town${idx + 1}` }>{town.name}</li>);
-  const [showList, setShowList] = useState(false);
-  const toggleList = () => {
-    if(showList) {
-      setShowList(false);
-    } else {
-      setShowList(true);
-    }
-  }
-  return (
-  <div>
-    <button id={props.id} onClick={toggleList}>{city.name}</button>
-    { showList ? <ul>{townList}</ul> : null }
-  </div>);
-}
-
-export function GetCities(props) {
-  const { state } = props;
-  const cityList = state.cities.map((city, idx) => <li key={city.name}>{ <GetTowns id={`city${idx + 1}`} city={city} />}</li>);
+  const { towns } = props;
   const [showList, setShowList] = useState(false);
   const toggleList = () => {
     if(showList) {
@@ -185,17 +166,55 @@ export function GetCities(props) {
   }
   return (
     <div>
-      <button id={props.id} onClick={toggleList}>{state.name}</button>
-      { showList ? <ul>{cityList}</ul> : null }
-    </div>);
+      {towns.map((town, idx) => {
+        return (
+        <div>
+          <button key={idx} id={ `town${idx + 1}` } onClick={toggleList}>{town.name}</button>
+        </div>)
+      })}
+    </div>)
+}
+
+export function GetCities(props) {
+  const { cities } = props;
+  const [showList, setShowList] = useState(false);
+  const toggleList = () => {
+    if(showList) {
+      setShowList(false);
+    } else {
+      setShowList(true);
+    }
+  }
+  return (
+  <div>
+    {cities.map((city, idx) => {
+      return (
+      <div>
+        <button key={idx} id={ `city${idx + 1}` } onClick={toggleList}>{city.name}</button>
+        { showList ? <GetTowns towns={city.towns}/> : null }
+      </div>)
+    })}
+  </div>)
 }
 
 function App() {
+  const [showList, setShowList] = useState(false);
+  const toggleList = () => {
+    if(showList) {
+      setShowList(false);
+    } else {
+      setShowList(true);
+    }
+  }
   return (
-    <div id="main">
-      <ul>{
-        states.map((state, idx) => <li key={state.name}>{ <GetCities id={`state${idx + 1}`} state={state} /> }</li>)
-      }</ul>
+    <div id="main">{
+        states.map((state, idx) => {
+          return (<div>
+            <button key={idx} id={ `state${idx + 1}` } onClick={toggleList}>{state.name}</button>
+            { showList ? <GetCities cities={state.cities}/> : null }
+          </div>)
+         })
+      }
     </div>
   );
 }
