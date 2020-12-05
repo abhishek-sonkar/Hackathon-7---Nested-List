@@ -167,14 +167,14 @@ export function GetTowns(props) {
   }
   return (
   <div>
-    <button onClick={toggleList}>{city.name}</button>
+    <button id={props.id} onClick={toggleList}>{city.name}</button>
     { showList ? <ul>{townList}</ul> : null }
   </div>);
 }
 
 export function GetCities(props) {
   const { state } = props;
-  const cityList = state.cities.map((city, idx) => <li key={city.name} id={ `city${idx + 1}` }>{ <GetTowns city={city} />}</li>);
+  const cityList = state.cities.map((city, idx) => <li key={city.name}>{ <GetTowns id={`city${idx + 1}`} city={city} />}</li>);
   const [showList, setShowList] = useState(false);
   const toggleList = () => {
     if(showList) {
@@ -185,7 +185,7 @@ export function GetCities(props) {
   }
   return (
     <div>
-      <button onClick={toggleList}>{state.name}</button>
+      <button id={props.id} onClick={toggleList}>{state.name}</button>
       { showList ? <ul>{cityList}</ul> : null }
     </div>);
 }
@@ -194,7 +194,7 @@ function App() {
   return (
     <div id="main">
       <ul>{
-        states.map((state, idx) => <li key={state.name} id={ `state${idx + 1}` }>{ <GetCities state={state} /> }</li>)
+        states.map((state, idx) => <li key={state.name}>{ <GetCities id={`state${idx + 1}`} state={state} /> }</li>)
       }</ul>
     </div>
   );
