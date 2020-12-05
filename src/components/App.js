@@ -156,20 +156,12 @@ const states = [
 
 export function GetTowns(props) {
   const { towns } = props;
-  const [showList, setShowList] = useState(false);
-  const toggleList = () => {
-    if(showList) {
-      setShowList(false);
-    } else {
-      setShowList(true);
-    }
-  }
   return (
     <div>
       {towns.map((town, idx) => {
         return (
         <div>
-          <button key={idx} id={ `town${idx + 1}` } onClick={toggleList}>{town.name}</button>
+          <button key={idx} id={ `town${idx + 1}` }>{town.name}</button>
         </div>)
       })}
     </div>)
@@ -177,41 +169,35 @@ export function GetTowns(props) {
 
 export function GetCities(props) {
   const { cities } = props;
-  const [showList, setShowList] = useState(false);
-  const toggleList = () => {
-    if(showList) {
-      setShowList(false);
-    } else {
-      setShowList(true);
-    }
+  const [showStates, setShowStates] = useState(Array(cities.length).fill(false));
+  const toggleList = (idx) => {
+    showStates[idx] = !showStates[idx];
+    setShowStates([...showStates]);
   }
   return (
   <div>
     {cities.map((city, idx) => {
       return (
       <div>
-        <button key={idx} id={ `city${idx + 1}` } onClick={toggleList}>{city.name}</button>
-        { showList ? <GetTowns towns={city.towns}/> : null }
+        <button key={idx} id={ `city${idx + 1}` } onClick={() => toggleList(idx)}>{city.name}</button>
+        { showStates[idx] ? <GetTowns towns={city.towns}/> : null }
       </div>)
     })}
   </div>)
 }
 
 function App() {
-  const [showList, setShowList] = useState(false);
-  const toggleList = () => {
-    if(showList) {
-      setShowList(false);
-    } else {
-      setShowList(true);
-    }
+  const [showStates, setShowStates] = useState(Array(states.length).fill(false));
+  const toggleList = (idx) => {
+    showStates[idx] = !showStates[idx];
+    setShowStates([...showStates]);
   }
   return (
     <div id="main">{
         states.map((state, idx) => {
           return (<div>
-            <button key={idx} id={ `state${idx + 1}` } onClick={toggleList}>{state.name}</button>
-            { showList ? <GetCities cities={state.cities}/> : null }
+            <button key={idx} id={ `state${idx + 1}` } onClick={() => toggleList(idx)}>{state.name}</button>
+            { showStates[idx] ? <GetCities cities={state.cities}/> : null }
           </div>)
          })
       }
